@@ -1,10 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Data.Scripts.BattleGrid;
 
-public abstract class EventListener_GridBx : EventListener
+namespace Data.Scripts.SO_EventSystem
 {
-    public abstract override void InvokeResponse();
+    public abstract class EventListener_GridBx : EventListener
+    {
+        public abstract override void InvokeResponse();
 
-    public abstract void InvokeResponse(GridBox gridBox);
+        public abstract void InvokeResponse(GridBox gridBox);
+    }
 }

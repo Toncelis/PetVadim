@@ -1,28 +1,34 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class GridBox : MonoBehaviour
+namespace Data.Scripts.BattleGrid
 {
-    [SerializeField] private Material standartMaterial;
-    [SerializeField] private Material chosenMaterial;
+    public class GridBox : MonoBehaviour
+    {
+        [SerializeField] private Material standardMaterial;
+        [SerializeField] private Material chosenMaterial;
+        [SerializeField] private Material inRangeMaterial;
 
-    private MeshRenderer _renderer;
+        private MeshRenderer _renderer;
     
-    private void Start()
-    {
-        _renderer = GetComponent<MeshRenderer>();
-    }
+        private void Start()
+        {
+            _renderer = GetComponent<MeshRenderer>();
+        }
 
-    public void RecolorToChosen()
-    {
-        _renderer.material = chosenMaterial;
-    }
+        public void RecolorToChosen()
+        {
+            _renderer.material = chosenMaterial;
+        }
 
-    public void RecolorToStandart()
-    {
-        _renderer.material = standartMaterial;
-    }
+        public void RecolorToInRange()
+        {
+            _renderer.material = inRangeMaterial;
+        }
+
+        public void RecolorToStandard()
+        {
+            _renderer.material = standardMaterial;
+        }
     
+    }
 }

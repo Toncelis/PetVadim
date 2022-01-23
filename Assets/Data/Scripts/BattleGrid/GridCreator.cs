@@ -1,42 +1,57 @@
-using System.Collections;
-using System.Collections.Generic;
+using Data.Scripts.BattleGrid.Cells;
 using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
 using UnityEditor;
 using UnityEngine;
 
-public class GridCreator : OdinEditorWindow
+namespace Data.Scripts.BattleGrid
 {
-
-    [MenuItem("Game/LevelCreation/Grid Creator")]
-    private static void OpenWindow()
+    public class GridCreator : OdinEditorWindow
     {
-        GetWindow<GridCreator>().Show();
-    }
 
-    [HorizontalGroup] public int width;
-
-    [HorizontalGroup] public int depth;
-
-    [Button(ButtonSizes.Medium)]
-    public void GridCreationButton()
-    {
-        var grid = new GameObject();
-        grid.transform.position = Vector3.zero;
-        grid.transform.rotation = Quaternion.identity;
-        grid.name = "Grid";
-        
-        for (int x = 0; x < width; x++)
+        [MenuItem("Game/LevelCreation/Grid Creator")]
+        private static void OpenWindow()
         {
-            for (int z = 0; z < depth; z++)
-            {
-                var gridCell = PrefabUtility.InstantiatePrefab(gridBox, grid.transform) as GameObject;
-                gridCell.name = $"cell {x}.{z}";
-                gridCell.transform.position = new Vector3(x, 0, z);
-            }
+            GetWindow<GridCreator>().Show();
         }
+
+        public int width;
+        public int depth;
+        public int maxHeight;
+
+        [Button(ButtonSizes.Medium)]
+        public void GridCreationButton()
+        {
+            var grid = new GameObject();
+        
+            grid.transform.position = Vector3.zero;
+            grid.transform.rotation = Quaternion.identity;
+            grid.name = "Grid";
+
+            GridManager gridManager = grid.AddComponent<GridManager>();
+            gridManager.Setup(width, depth);
+        
+            for (int z = 1; z <= depth; z++)
+            {
+                for (int x = 1; x <= width; x++)
+                {
+                    var gridCell = PrefabUtility.InstantiatePrefab(gridBox, grid.transform) as GameObject;
+                    gridCell.name = $"cell {x}.{z}";
+                    int randomHeight = UnityEngine.Random.Range(0, maxHeight);
+                    gridCell.transform.position = new Vector3(x, (float)randomHeight/2, z);
+                    gridCell.transform.localScale = new Vector3 (0.99f, 1+randomHeight, 0.99f);
+
+                    Cell cell = gridCell.AddComponent<Cell>();
+                    cell.Setup(x,randomHeight,z,gridManager);
+                    gridManager.AddCell(cell);
+
+                }
+            }
+        
+            gridManager.RebuildCellConnections();
+        }
+
+        [PropertySpace(20)] public GameObject gridBox;
+
     }
-
-    [PropertySpace(20)] public GameObject gridBox;
-
 }

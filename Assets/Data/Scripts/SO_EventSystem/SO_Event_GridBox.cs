@@ -1,21 +1,23 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using Data.Scripts.BattleGrid;
 
-public class SO_Event_GridBox : SO_Event
+namespace Data.Scripts.SO_EventSystem
 {
-    private List<EventListener_GridBx> listeners = 
-        new List<EventListener_GridBx>();
-    
-    public void Raise(GridBox gridBox)
+    public class SO_Event_GridBox : SO_Event
     {
-        for(int i = listeners.Count -1; i >= 0; i--)
-            listeners[i].InvokeResponse(gridBox);
-    }
+        private new List<EventListener_GridBx> listeners = 
+            new List<EventListener_GridBx>();
     
-    public void RegisterListener(EventListener_GridBx listener)
-    { listeners.Add(listener); }
+        public void Raise(GridBox gridBox)
+        {
+            for(int i = listeners.Count -1; i >= 0; i--)
+                listeners[i].InvokeResponse(gridBox);
+        }
+    
+        public void RegisterListener(EventListener_GridBx listener)
+        { listeners.Add(listener); }
 
-    public void UnregisterListener(EventListener_GridBx listener)
-    { listeners.Remove(listener); }
+        public void UnregisterListener(EventListener_GridBx listener)
+        { listeners.Remove(listener); }
+    }
 }

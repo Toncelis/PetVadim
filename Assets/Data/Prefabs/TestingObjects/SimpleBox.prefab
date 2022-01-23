@@ -110,5 +110,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d874fb2032324d4fb14274fa29eea7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  standartMaterial: {fileID: 2100000, guid: 0245fd4165c1a3249a8097b0afdcc38b, type: 2}
+  standardMaterial: {fileID: 2100000, guid: 0245fd4165c1a3249a8097b0afdcc38b, type: 2}
   chosenMaterial: {fileID: 2100000, guid: 53707372b697c754382b1c80bfd96e10, type: 2}
+  inRangeMaterial: {fileID: 2100000, guid: b3c08aabca81f2548b323450075d518a, type: 2}
