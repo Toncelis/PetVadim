@@ -9,11 +9,18 @@ namespace Data.Scripts.BattleGrid.Pathing.Rules
     [CreateAssetMenu(order = 1, fileName = "ClimberPathingRule", menuName = "CustomSystems/Pathing/ClimberRule")]
     public class ClimberRule : PathingRule
     {
-        [SerializeField] private float climbMultiplier; 
+        [SerializeField] private float ascendingMultiplier;
+        [SerializeField] private float descendingMultiplier;
         
         public override int CalculateMovementCost(Cell cellFrom, Cell cellTo, Border border = null)
         {
-            return 1 + Mathf.FloorToInt(climbMultiplier * Mathf.Abs(cellFrom.y - cellTo.y));
+            if (cellFrom.y > cellTo.y)
+            {
+                return 1 + Mathf.FloorToInt(descendingMultiplier * (cellFrom.y - cellTo.y));
+            }
+            
+            return 1 + Mathf.FloorToInt(ascendingMultiplier * (cellTo.y - cellFrom.y));
+            
         }
     }
 }

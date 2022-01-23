@@ -44,7 +44,7 @@ namespace Data.Scripts.BattleGrid.Pathing
             boundaryCells.Sort(MappedCellsComparer);
             */
 
-            while (boundaryCells[0] != null && boundaryCells[0].travelPrice <= maxMovementPoints)
+            while (boundaryCells.Count>0 && boundaryCells[0] != null && boundaryCells[0].travelPrice <= maxMovementPoints)
             {
                 CellMapped processedCell = boundaryCells[0];
                 boundaryCells.RemoveAt(0);
@@ -60,10 +60,13 @@ namespace Data.Scripts.BattleGrid.Pathing
 
                     if (reachableCells.All(mappedCell => mappedCell.cell != possibleBoundaryCell))
                     {
-                        AddMappedCellToSortedList(boundaryCells,
-                            new CellMapped(possibleBoundaryCell, direction,
-                                processedCell.travelPrice +
-                                pathingRule.CalculateMovementCost(processedCell.cell, possibleBoundaryCell)));
+                        int stepPrice = pathingRule.CalculateMovementCost(processedCell.cell, possibleBoundaryCell);
+                        if (stepPrice > 0)
+                        {
+                            AddMappedCellToSortedList(boundaryCells,
+                                new CellMapped(possibleBoundaryCell, direction,
+                                    processedCell.travelPrice + stepPrice));
+                        }
                     }
                 }
                 
