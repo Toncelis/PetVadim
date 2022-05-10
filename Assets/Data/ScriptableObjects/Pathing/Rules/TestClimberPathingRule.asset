@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7608537715a9dd94b8ebcb890f8c0c3b, type: 3}
   m_Name: TestClimberPathingRule
   m_EditorClassIdentifier: 
-  ascendingMultiplier: 0
-  descendingMultiplier: 0
+  ascendingMultiplier: 2
+  descendingMultiplier: 8

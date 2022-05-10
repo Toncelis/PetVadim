@@ -8,7 +8,7 @@ namespace Data.Scripts.BattleGrid.Pathing
     public static class PathBuilder
     {
         private static readonly CellMappedComparer MappedCellsComparer = new CellMappedComparer();
-        
+
         private static void AddMappedCellToSortedList(List<CellMapped> sortedCellList, CellMapped cellToAdd)
         {
             int index = sortedCellList.BinarySearch(cellToAdd, MappedCellsComparer);
@@ -44,10 +44,12 @@ namespace Data.Scripts.BattleGrid.Pathing
             boundaryCells.Sort(MappedCellsComparer);
             */
 
-            while (boundaryCells.Count>0 && boundaryCells[0] != null && boundaryCells[0].travelPrice <= maxMovementPoints)
+            int processedCellIndex = 0;
+            while (boundaryCells[processedCellIndex].travelPrice <= maxMovementPoints)
             {
-                CellMapped processedCell = boundaryCells[0];
-                boundaryCells.RemoveAt(0);
+                CellMapped processedCell = boundaryCells[processedCellIndex];
+                processedCellIndex++;
+                
                 reachableCells.Add(processedCell);
 
                 foreach (var direction in (EnumDirections[]) Enum.GetValues(typeof(EnumDirections)))
@@ -58,16 +60,19 @@ namespace Data.Scripts.BattleGrid.Pathing
                         continue;
                     }
 
-                    if (reachableCells.All(mappedCell => mappedCell.cell != possibleBoundaryCell))
+                    if (reachableCells.Any(mappedCell => mappedCell.cell == possibleBoundaryCell) || boundaryCells.Any(mappedCell => mappedCell.cell == possibleBoundaryCell))
                     {
-                        int stepPrice = pathingRule.CalculateMovementCost(processedCell.cell, possibleBoundaryCell);
-                        if (stepPrice > 0)
-                        {
+                        continue;
+                    }
+
+                    int stepPrice = pathingRule.CalculateMovementCost(processedCell.cell, possibleBoundaryCell);
+                    if (stepPrice > 0)
+                    {
                             AddMappedCellToSortedList(boundaryCells,
                                 new CellMapped(possibleBoundaryCell, direction,
-                                    processedCell.travelPrice + stepPrice));
-                        }
+                                processedCell.travelPrice + stepPrice));
                     }
+                    
                 }
                 
             }
