@@ -37,9 +37,11 @@ namespace Data.Scripts.BattleGrid
                     out var hit, raycastDistance,
                     LayerMask.GetMask("Grid")))
             {
+                Debug.Log("no cells under click");
                 return null;
             }
-            return hit.collider.gameObject.GetComponent<Cell>();
+            Debug.Log("found cell");
+            return hit.collider.gameObject.GetComponentInParent<Cell>();
         }
 
         private void RecolorCells()
@@ -205,8 +207,7 @@ namespace Data.Scripts.BattleGrid
                 }
 
                 _arrows.Add(Instantiate(visualArrow,
-                    previousCell.gameObject.transform.position +
-                    previousCell.transform.localScale.y * 0.5f * Vector3.up, arrowRotation) as GameObject);
+                    previousCell.gameObject.transform.position + 0.5f * Vector3.up, arrowRotation) as GameObject);
                 destinationCell = _pathingMap.Find(mappedCell => mappedCell.cell == previousCell);
                 previousCell = cell.gridManager.GetCell(destinationCell.cell,
                     DirectionsUtility.Reverse(destinationCell.direction));

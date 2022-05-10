@@ -37,10 +37,16 @@ namespace Data.Scripts.BattleGrid.Cells
             _z = newZ;
 
             _gridManager = newGridManager;
-            box = gameObject.GetComponent<GridBox>();
+            box = gameObject.GetComponentInChildren<GridBox>();
+            UpdateVisualPosition();
         }
 
         public void OnEnable()
+        {
+            InitializeAdjacencyDictionary();
+        }
+
+        private void InitializeAdjacencyDictionary()
         {
             adjacentCells = new Dictionary<EnumDirections, Cell>
             {
@@ -50,7 +56,7 @@ namespace Data.Scripts.BattleGrid.Cells
                 {EnumDirections.Left, leftCell}
             };
         }
-
+        
         public void UpdateAdjacentCells()
         {
             forwardCell = gridManager.GetCell(x, z + 1);
@@ -71,5 +77,21 @@ namespace Data.Scripts.BattleGrid.Cells
         {
             box.RecolorToInRange();
         }
+
+        private void UpdateVisualPosition()
+        {
+            transform.position = new Vector3(x, y, z);
+            transform.localScale = new Vector3(transform.localScale.x, y, transform.localScale.z);
+        }
+        
+        [Button("Update button position")]
+        private void UpdateCellSizeBasedOnTransformPosition()
+        {
+            Debug.Log($"validating box {x} {z}");
+            _y = Mathf.RoundToInt(transform.localPosition.y);
+            UpdateVisualPosition();
+        }
+        
+        
     }
 }

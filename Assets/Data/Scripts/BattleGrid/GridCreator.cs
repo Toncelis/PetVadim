@@ -37,14 +37,11 @@ namespace Data.Scripts.BattleGrid
                 {
                     var gridCell = PrefabUtility.InstantiatePrefab(gridBox, grid.transform) as GameObject;
                     gridCell.name = $"cell {x}.{z}";
-                    int randomHeight = UnityEngine.Random.Range(0, maxHeight);
-                    gridCell.transform.position = new Vector3(x, (float)randomHeight/2, z);
-                    gridCell.transform.localScale = new Vector3 (0.99f, 1+randomHeight, 0.99f);
+                    int randomHeight = UnityEngine.Random.Range(1, maxHeight+1 );
 
                     Cell cell = gridCell.AddComponent<Cell>();
                     cell.Setup(x,randomHeight,z,gridManager);
                     gridManager.AddCell(cell);
-
                 }
             }
         
